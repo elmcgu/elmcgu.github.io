@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    
+    <title>root@elmcgu.com:# whoami</title>
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script src="/js/dark.js" defer=""></script>
+
+</head>
+
+
+<html>
+<!DOCTYPE html>
+<html>
+
+<body>
+  <header class="site-header">
+
+    <div class="wrapper">
+      <a class="muted small" href="https://elmcgu.com">root@elmcgu.com:# whoami</a>
+       <img src="https://tryhackme-badges.s3.amazonaws.com/elmcgu.png" alt="TryHackMe">
+    </div>
+
+  </header>
+</body>
+
+</html>
+
+<h1>Juice Shop Challenge Guide - Injection</h1>
+<p class="post-meta"><time itemprop="datePublished">March 17, 2024</time>
+</p>
+<h1 id="juice-shop-injection-vulnerabilities">Juice Shop Injection Vulnerabilities</h1>
+<p>This article goes through all the injection challenges on OWASP Juice Shop. You can find all the challenges here: <a href="https://pwning.owasp-juice.shop/companion-guide/latest/part2/injection.html">https://pwning.owasp-juice.shop/companion-guide/latest/part2/injection.html</a></p>
+<h2 id="login-admin">Login Admin</h2>
+<h3 id="log-in-with-the-administrators-user-account">Log in with the administrator&rsquo;s user account.</h3>
+<p>To begin, I tested for sql injection by submitting ' as the email address on the log-in form and an unexpected object response was triggerred, suggesting the login form is vulnerable to sql injection. This also resulted in a challenge being solved as shown below.</p>
+<p><img src="/admin_login0.png" alt=""></p>
+<p>I tried this common authentication by-pass shown below and it resulted in successfully logging in as admin.</p>
+<p><img src="/admin_login.png" alt=""></p>
+<h2 id="login-jim--bender">Login Jim &amp; Bender</h2>
+<h3 id="log-in-with-jim--benders-user-account">Log in with Jim &amp; Bender&rsquo;s user account.</h3>
+<p>Both Jim and Bender&rsquo;s logins an be found by searching through product reviews.</p>
+<p><img src="/jim_bender_login0.png" alt=""></p>
+<p>Once we have their emails we can simply login due to the vulnerable login form. It doesn&rsquo;t matter what we pass into the password input as the &lsquo;&ndash; escapes the input and comments out the rest of the query and so it by-passes the authentication by returning True that the email is an email in the database.</p>
+<p><img src="/jim_bender_login1.png" alt=""></p>
+<h2 id="database-schema">Database Schema</h2>
+<h3 id="exfiltrate-the-entire-db-schema-definition-via-sql-injection">Exfiltrate the entire DB schema definition via SQL Injection.</h3>
+<p>Thanks to the Jr. Penetration Tester Pathway I&rsquo;m completing on TryHackMe, the following challenge was pretty straight-forward. It was very pleasing to see that I could practically apply what I&rsquo;m learning.</p>
+<p>Firstly I needed a vulnerability where I could use sql injection to retrieve more than what I should from the database. I was able to determine the search bar from the navigation menu at the top of the Juice Shop page was vulnerable by adding &lsquo;&ndash; as the search value.</p>
+<p><img src="/search.png" alt=""></p>
+<p>I opened Burp Suite, used default profile, turned on foxyproxy extension in my Firefox browser, turned on intercept mode in Burp Suite and submitted a product search from the search bar on the navigation at top of Juice Shop site.  The request was caught in Proxy in Burp Suite so I sent it to the repeater to edit request parameters and view responses.</p>
+<p><img src="/database_schema.png" alt=""></p>
+<p>I tried adding ' UNION SELECT 1;&ndash; after t-shirt but I could see from the sqlite error given there were double parentheses being used in sql query which prevented my injection from working.</p>
+<p><img src="/database_schema1.png" alt=""></p>
+<p>After adding the double closing brackets into the value for my search query, I received a new error indicating the number of columns didn&rsquo;t match which is exactly what I was hoping for.</p>
+<p><img src="/database_schema2.png" alt=""></p>
+<p>After repeated tries I found 9 columns to be correct.</p>
+<p><img src="/database_schema3.png" alt=""></p>
+<p>I tried to progress by using the database() but I was unable due to the fact it was sqlite I was attacking and it doesn&rsquo;t contain the function.</p>
+<p><img src="/database_schema4.png" alt=""></p>
+<p>After a quick google search I found out I could use sql FROM sqlite_schema to obtain the database schema and so I added it in after 8 to keep the number of requested columns as required.</p>
+<p>The response contained all tables from the sqlite db.</p>
+<p><img src="/database_schema5.png" alt=""></p>
+<p><img src="/database_schema6.png" alt=""></p>
+<h2 id="2014-christmas-special">2014 Christmas Special</h2>
+<h3 id="order-the-christmas-special-offer-of-2014">Order the Christmas special offer of 2014.</h3>
+<p>Using the name of the Products table which I found in the last challenge I was able to search through all products and find the discontinued 2014 Christmas Special by using SELECT * .</p>
+<p><img src="/christmas_special0.png" alt=""></p>
+<p>I first attempted to update the deletedAt column to null but this approach didn&rsquo;t work as the table didn&rsquo;t update.</p>
+<p><img src="/christmas_special1.png" alt=""></p>
+<p>I added a product to my basket while logged in as a user and using my browser&rsquo;s Network console
+I edited the POST request and changed the ProductId to 10 which I noted from my Product table search before.
+I sent the edited request.</p>
+<p><img src="/christmas_special2.png" alt=""></p>
+<p>The unavailable product was now in the user&rsquo;s basket so I just continued to order using the saved details from within the user&rsquo;s account.</p>
+<p><img src="/chrsitmas_special4.png" alt=""></p>
+<h2 id="user-credentials">User Credentials</h2>
+<h3 id="retrieve-a-list-of-all-user-credentials-via-sql-injection">Retrieve a list of all user credentials via SQL Injection.</h3>
+<p>As I had already acquired the database schema ealrier, I already the knew the column names of the User table.</p>
+<p><img src="/users-schema.png" alt=""></p>
+<p>I simply added password, email and id to my select statement querying the Users table and this gave me the values of these columns for all users in the table in the 7th, 8th and 9th column results.</p>
+<p><img src="/users3.png" alt=""></p>
+<h2 id="ephemeral-account">Ephemeral Account</h2>
+<h3 id="log-in-with-the-non-existing-accountant-acc0unt4ntjuice-shop-without-ever-registering-that-user">Log in with the (non-existing) accountant <a href="mailto:acc0unt4nt@juice-sh.op">acc0unt4nt@juice-sh.op</a> without ever registering that user.</h3>
+<p>I had met my match with this challenge that required login as the non-existing accountant user. I had to read the solution in order to pass the challenge.</p>
+<p>The solution invlolved using all of the column values from the Users table for the accountant. These can be acquired by using the SELECT statement from before but add all column names which we have from the databse schema.</p>
+<p>A SQL statment can then be crafted from this and entered into the login form to add the user with the static values we supplied and trick the backend into giving out a valid JSON Web Token to establish the user session.</p>
+<p>The Select statement is as follows:</p>
+<p>UNION SELECT * FROM (SELECT 15 as &lsquo;id&rsquo;, '&rsquo; as &lsquo;username&rsquo;, &lsquo;<a href="mailto:acc0unt4nt@juice-sh.op">acc0unt4nt@juice-sh.op</a>&rsquo; as &lsquo;email&rsquo;, &lsquo;12345&rsquo; as &lsquo;password&rsquo;, &lsquo;accounting&rsquo; as &lsquo;role&rsquo;, &lsquo;123&rsquo; as &lsquo;deluxeToken&rsquo;, &lsquo;1.2.3.4&rsquo; as &lsquo;lastLoginIp&rsquo; , &lsquo;/assets/public/images/uploads/default.svg&rsquo; as &lsquo;profileImage&rsquo;, '&rsquo; as &lsquo;totpSecret&rsquo;, 1 as &lsquo;isActive&rsquo;, &lsquo;1999-08-16 14:14:41.644 +00:00&rsquo; as &lsquo;createdAt&rsquo;, &lsquo;1999-08-16 14:33:41.930 +00:00&rsquo; as &lsquo;updatedAt&rsquo;, null as &lsquo;deletedAt&rsquo;)&ndash;</p>
+<p><img src="/accountant.png" alt=""></p>
+<h2 id="nosql-manipulation">NoSQL Manipulation</h2>
+<h3 id="update-multiple-product-reviews-at-the-same-time">Update multiple product reviews at the same time</h3>
+<p>This was my first attempt at NoSql injection but I was able to get through it with a little research.
+I ended up using the $ne operator shown below to target all reviews.</p>
+<p><img src="/multiple_reviews.png" alt=""></p>
+<p>I used my browser&rsquo;s network tools to edit and resend the PUT request issued when I manually added a review for a product.</p>
+<p>I changed the type of request to PATCH (which is equivalent to UPDATE) instead of PUT.</p>
+<p>I edited the JSON in the body and used $ne operator as -1 so as to target all ids that don&rsquo;t match -1 and changed the message to what I deemed most suitable for this situation.</p>
+<p>I sent the new request but a path error was returned.</p>
+<p><img src="/multiple_reviews0.png" alt=""></p>
+<p>I removed the product id (38) from the url route and the PATCH request was carried out successfully for all reviews on the app.</p>
+<p><img src="/hacked.png" alt=""></p>
+<p><img src="/multiple_reviews2.png" alt=""></p>
+
+
+<footer>
+    <div>
+        <h3><a href="https://elmcgu.com/posts">Back to all posts</a></h3>
+    </div>
+    <hr>
+    <p>Go <a href="https://elmcgu.com/index.xml">here</a> for an RSS feed.</p>
+</footer>
+
+</html>
