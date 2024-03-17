@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on elmcgu</title>
-    <link>https://elmcgu.com/posts/</link>
+    <link>https://elmcgu.github.io/posts/</link>
     <description>Recent content in Posts on elmcgu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Mar 2024 17:10:36 +0000</lastBuildDate><atom:link href="https://elmcgu.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Mar 2024 17:10:36 +0000</lastBuildDate><atom:link href="https://elmcgu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Juice Shop Challenge Guide - Injection</title>
-      <link>https://elmcgu.com/posts/juiceshop-injection/</link>
+      <link>https://elmcgu.github.io/posts/juiceshop-injection/</link>
       <pubDate>Sun, 17 Mar 2024 17:10:36 +0000</pubDate>
       
-      <guid>https://elmcgu.com/posts/juiceshop-injection/</guid>
+      <guid>https://elmcgu.github.io/posts/juiceshop-injection/</guid>
       <description>Juice Shop Injection Vulnerabilities This article goes through all the injection challenges on OWASP Juice Shop. You can find all the challenges here: https://pwning.owasp-juice.shop/companion-guide/latest/part2/injection.html
 Login Admin Log in with the administrator&amp;rsquo;s user account. To begin, I tested for sql injection by submitting &#39; as the email address on the log-in form and an unexpected object response was triggerred, suggesting the login form is vulnerable to sql injection. This also resulted in a challenge being solved as shown below.</description>
     </item>
     
     <item>
       <title>Juice Shop Challenge Guide - Score-board</title>
-      <link>https://elmcgu.com/posts/score_board/</link>
+      <link>https://elmcgu.github.io/posts/score_board/</link>
       <pubDate>Sun, 17 Mar 2024 17:05:36 +0000</pubDate>
       
-      <guid>https://elmcgu.com/posts/score_board/</guid>
+      <guid>https://elmcgu.github.io/posts/score_board/</guid>
       <description>Find the Hidden Score-Board I opened the developer tools in my browser. I investigated the body of the html but couldn&amp;rsquo;t find anything so I searched for &amp;ldquo;/score&amp;rdquo; in main.js and found the link I input the route to the browser and was re-directed to the score-board page. That solved the challenge and now the score-board is accessible from side-nav. </description>
     </item>
     
     <item>
       <title>Pentesting VPC - Host private vulnerable machines in the cloud for free and access from anywhere</title>
-      <link>https://elmcgu.com/posts/pentesting-vpc/</link>
+      <link>https://elmcgu.github.io/posts/pentesting-vpc/</link>
       <pubDate>Thu, 14 Mar 2024 06:40:36 +0000</pubDate>
       
-      <guid>https://elmcgu.com/posts/pentesting-vpc/</guid>
+      <guid>https://elmcgu.github.io/posts/pentesting-vpc/</guid>
       <description>Setting-up OWASP Juice Shop on AWS with Private VPN Access Background/Overview Preparing for a Capture The Flag (CTF) competition led me to discover OWASP&amp;rsquo;s Juice Shop during our developer club meeting. Juice Shop, a vulnerable web app, offers free usage, enriching educational experience and craic. I&amp;rsquo;ve been running it on a separate machine on my local network since my initial introduction but this isn&amp;rsquo;t much good if I have a time to practice when I&amp;rsquo;m out and about.</description>
     </item>
     
