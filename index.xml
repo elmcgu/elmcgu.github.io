@@ -6,7 +6,17 @@
     <description>Recent content on elmcgu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Mar 2024 17:10:36 +0000</lastBuildDate><atom:link href="https://elmcgu.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Mar 2024 12:10:36 +0000</lastBuildDate><atom:link href="https://elmcgu.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TryHackMe CTF - Pickle Rick</title>
+      <link>https://elmcgu.github.io/posts/pickle-rick/</link>
+      <pubDate>Tue, 19 Mar 2024 12:10:36 +0000</pubDate>
+      
+      <guid>https://elmcgu.github.io/posts/pickle-rick/</guid>
+      <description>Pickle Rick CTF In the following post I go through how I solved the Pickle Rick CTF on TryHackMe which can be found here - https://tryhackme.com/r/room/picklerick
+Recon After launching the CTF machine, I grabbed the IP address and used the tool ffuf to try and uncover all the files on the server. The -c argument colorises the output, -w to specify the wordlist i want to use to enumerate and -u for the target followed by FUZZ keyword.</description>
+    </item>
+    
     <item>
       <title>Juice Shop Challenge Guide - Injection</title>
       <link>https://elmcgu.github.io/posts/juiceshop-injection/</link>

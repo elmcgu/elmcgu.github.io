@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    
+    <title>root@elmcgu.com:# whoami</title>
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script src="/js/dark.js" defer=""></script>
+
+</head>
+
+
+<html>
+<!DOCTYPE html>
+<html>
+
+<body>
+  <header class="site-header">
+
+    <div class="wrapper">
+      <a class="muted small" href="https://elmcgu.github.io">root@elmcgu.com:# whoami</a>
+    </div>
+
+  </header>
+</body>
+
+</html>
+
+<h1>TryHackMe CTF - Pickle Rick</h1>
+<p class="post-meta"><time itemprop="datePublished">March 19, 2024</time>
+</p>
+<h1 id="pickle-rick-ctf">Pickle Rick CTF</h1>
+<p>In the following post I go through how I solved the Pickle Rick CTF on TryHackMe which can be found here - <a href="https://tryhackme.com/r/room/picklerick">https://tryhackme.com/r/room/picklerick</a></p>
+<h2 id="recon">Recon</h2>
+<p>After launching the CTF machine, I grabbed the IP address and used the tool ffuf to try and uncover all the files on the server. The -c argument colorises the output, -w to specify the wordlist i want to use to enumerate and -u for the target followed by FUZZ keyword. I also used -e to specify the file types I wanted to look for.</p>
+<p><img src="/Pickle-Rick.png" alt=""></p>
+<p>While ffuf was running I jumped over to the website that was served from the IP and looked through the HTML source code. There was a comment there delineating the username - R1ckRul3s.
+<img src="/developer_tools.png" alt=""></p>
+<p>I went back to my terminal to observe the enumeration results and noted robots.txt and login.php. *Status 200 indicates a successful server response.</p>
+<p><img src="/ffuf-results.png" alt=""></p>
+<p>I navigated to robots.txt and found the string Wubbalubbadubdub. <em>That&rsquo;s one of Rick&rsquo;s catchphrases for the unitiated.</em></p>
+<p><img src="/robots.png" alt=""></p>
+<h2 id="login">Login</h2>
+<p>On the login.php page I was able to login usign the username from the index.html and the string from robots.txt. On this page I was unable to access any of the pages on menu-bar except Commands.</p>
+<p><img src="/real_rick.png" alt=""></p>
+<h2 id="finding-the-ingredients-grep-and-find-to-the-rescue">Finding the ingredients (grep and find to the rescue)</h2>
+<p>I ran ls command and it listed the files in the directory. <em>ls is unix command for list</em></p>
+<p><img src="/ls.png" alt=""></p>
+<p>I tried to cat the file that appeared to contain an ingredient but cat command was disabled. <em>cat (concatenate) is a Unix command used for displaying content of files to terminal</em>.</p>
+<p><img src="/cat.png" alt=""></p>
+<p>To circumvent this I used grep to display the file contents as it wasn&rsquo;t prohibited. <em>grep allows users to find patterns within files. I searched for the pattern &quot;&quot; which matched every line. I used -R argument which carries it out recursively which was unneccessary as I was targeting the specific file not a directory</em></p>
+<p><img src="/ingred1.png" alt=""></p>
+<p>I also used the same method to display clue.txt</p>
+<p><img src="/clue.png" alt=""></p>
+<p>I knew I had to look through the file system, so where to start? I decided to search for &ldquo;ingred&rdquo; in the file system since it was in the filename of the 1st one. I used <code>find / -print | grep -i ingred</code> to do this. find / -print found all files and directories in the file system from / and printed them and then by piping (|) them to grep to search through all that contained ingred with the -i argument to make it case-insensitive.
+The 2nd ingredient was in /home/rick/</p>
+<p><img src="/ingred2.png" alt=""></p>
+<p>I used the same grep technique to output the contents making sure to put the filename in &quot; &quot; because there was a space.</p>
+<p><img src="/ingred2_1.png" alt=""></p>
+<p>Finding the 3rd ingredient wasn&rsquo;t so easy. I tried the find command I used before with &ldquo;3&rdquo;, &ldquo;third&rdquo; and &ldquo;.txt&rdquo; based on the first two ingredient files but to no avail. I realised as I was looking through the files that it wasn&rsquo;t looking through all directories <em>(Should have been obvious to me that would happen unless * <code>sudo chmod -R 755 /</code> * was ran and gave all access to the filesystem) p.s never do that.</em>
+I tried <code>sudo ls</code> and I got an output so I knew I could use root priviliges. After skimming through the results for the sudo find command below I came across the 3rd and final ingredient in the /root directory.</p>
+<p><img src="/grep_txt.png" alt=""></p>
+<p><img src="/3rd.png" alt=""></p>
+<p><img src="/grep_3.png" alt=""></p>
+
+
+<footer>
+    <div>
+        <h3><a href="https://elmcgu.github.io/posts">Back to all posts</a></h3>
+    </div>
+    <hr>
+    <p>Go <a href="https://elmcgu.github.io/index.xml">here</a> for an RSS feed.</p>
+</footer>
+
+</html>
