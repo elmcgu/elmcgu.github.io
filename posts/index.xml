@@ -6,7 +6,16 @@
     <description>Recent content in Posts on elmcgu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Mar 2024 07:10:36 +0000</lastBuildDate><atom:link href="https://elmcgu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Apr 2024 07:10:36 +0000</lastBuildDate><atom:link href="https://elmcgu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python - Youtube Playlist Downloader</title>
+      <link>https://elmcgu.github.io/posts/youtube_playlist_downloader/</link>
+      <pubDate>Wed, 03 Apr 2024 07:10:36 +0000</pubDate>
+      
+      <guid>https://elmcgu.github.io/posts/youtube_playlist_downloader/</guid>
+      <description>Python - Youtube Playlist Downloader  I wrote this simple python script that saves all videos in a playlist to a folder you specify in either .mp4(video) or .mp3(audio) format. You can find the code on my Github here &amp;ndash;&amp;gt; https://github.com/elmcgu/YT-Playlist-Downloader The only external module needed is pytube which you can install with pip install pytube  </description>
+    </item>
+    
     <item>
       <title>TryHackMe CTF - Pickle Rick</title>
       <link>https://elmcgu.github.io/posts/pickle-rick/</link>
