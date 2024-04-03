@@ -8,6 +8,17 @@
     <language>en-us</language>
     <lastBuildDate>Wed, 03 Apr 2024 07:10:36 +0000</lastBuildDate><atom:link href="https://elmcgu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Python &amp; OpenAI - Generate Notes &#43; Anki Flashcard Deck From Youtube Video</title>
+      <link>https://elmcgu.github.io/posts/yt_gen_notes_anki/</link>
+      <pubDate>Wed, 03 Apr 2024 07:10:36 +0000</pubDate>
+      
+      <guid>https://elmcgu.github.io/posts/yt_gen_notes_anki/</guid>
+      <description>This script uses pytube, genanki and OpenAI to produce notes and a deck of flashcards. The code is available on my Github here &amp;ndash;&amp;gt; https://github.com/elmcgu/YT-Notes-Flashcard-Gen
+  I created this script to help process free learning material on Youtube for CompTia Network+ Cert.
+  It was an interesting learning project - regex for file renaming and cleaning json, parsing json into python dictionary, learning to interact with OpenAI API and prompt engineering.</description>
+    </item>
+    
+    <item>
       <title>Python - Youtube Playlist Downloader</title>
       <link>https://elmcgu.github.io/posts/youtube_playlist_downloader/</link>
       <pubDate>Wed, 03 Apr 2024 07:10:36 +0000</pubDate>
